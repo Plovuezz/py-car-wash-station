@@ -28,11 +28,17 @@ class CarWashStation:
                       / self.distance_from_city_center), 1)
 
     def serve_cars(self, cars: list) -> float:
-        return sum([self.calculate_washing_price(car) for car in cars])
+        income = 0
+
+        for car in cars:
+            if self.clean_power > car.clean_mark:
+                income += self.calculate_washing_price(car)
+                self.wash_single_car(car)
+
+        return income
 
     def wash_single_car(self, car: Car) -> None:
-        if self.clean_power > car.clean_mark:
-            car.clean_mark = self.clean_power
+        car.clean_mark = self.clean_power
 
     def rate_service(self, mark: float) -> None:
 
